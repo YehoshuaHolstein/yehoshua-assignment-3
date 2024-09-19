@@ -24,8 +24,8 @@ public class UserService {
 			counter++;
 		}
 		
-		User[] user = new User[counter + 1];
-		return user;
+		User[] userArray = new User[counter + 1];
+		return userArray;
 		
 		
 		fileReader.close();
