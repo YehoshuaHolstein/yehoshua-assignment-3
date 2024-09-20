@@ -23,7 +23,7 @@ public class UserService {
 
 		String line;
 		int index = 0;
-		User[] userArray = new User[4];;
+		User[] userArray = new User[4];
 		try {
 			while ((line = fileReader.readLine()) != null) {
 				String[] stringArray = line.split(",");
@@ -44,32 +44,45 @@ public class UserService {
 			e.printStackTrace();
 		}
 			return userArray;
-		}
+	}
+
 	
-	public String validateInput(User[] userArray) {
+	public String[] acceptInput() {
+		String[] inputArray = new String[2];
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter your email: ");
-		String emailInput = scanner.nextLine();
+		String e = scanner.nextLine();
+		inputArray[0] = e;
 		System.out.println("Enter your password: ");
-		String passwordInput = scanner.nextLine();
+		String p = scanner.nextLine();
+		inputArray[1] = p;
+		scanner.close();
+		return inputArray;
+		
+	}	
+	
+	public void validateInput(User[] userArray, String[] inputArray) {
 		String output = "";
-		for (int i = 0; i < 6; i++) {		
+		for (int i = 0; i < 6; i++) {	
+			
 			for(int j = 0; j < userArray.length; j++) {
-				if (userArray[j].getUsername().equalsIgnoreCase(emailInput)  && 
-						userArray[j].getPassword().equalsIgnoreCase(passwordInput)) {
+				if (userArray[j].getUsername().equalsIgnoreCase(inputArray[0])  && 
+						userArray[j].getPassword().equalsIgnoreCase(inputArray[1])) {
 					output = ("Welcome: " + userArray[j].getName());
 					break;
-				} else {
-					System.out.println("Invalid login, please try again");
+				} else { 
+					continue;
 				}
 			}
 			if (output == "") {
-				output = "Too many failed login attempts, you are now locked out";
-			} else {
-				break ;
+				System.out.println("Invalid login, please try again");
+				acceptInput();
 			}
 		}
-		scanner.close();
-		return output;
+		
+		if (output == "") {
+				System.out.println("Too many failed login attempts, you are now locked out");
+			} 
+	
 	}
 }

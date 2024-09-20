@@ -10,14 +10,9 @@ public class UserLoginApplication {
 		
 		User[] user = userService.readFile(new String("C:\\Users\\15204\\OneDrive\\Documents\\"
 				+ "GitHub\\bootcamp_workspace\\yehoshua-assignment-3\\data.txt"));
-				
-//		for (User stuff : user) {
-//			System.out.println("Username: " + stuff.getUsername());
-//			System.out.println("Password: " + stuff.getPassword());
-//			System.out.println("Name: " + stuff.getName());
-//		}
-
-		System.out.println(userService.validateInput(user));
+		
+		String[] inputArray = userService.acceptInput();
+		userService.validateInput(user, inputArray);
 	} 
 
 }
