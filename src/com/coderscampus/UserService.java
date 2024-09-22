@@ -8,10 +8,6 @@ import java.util.Scanner;
 
 public class UserService {
 	
-	// reading data from file ^
-	// creating User Array
-	// validating input
-	
 	public User[] readFile(String filePath) {
 		
 		BufferedReader fileReader = null;
@@ -47,28 +43,27 @@ public class UserService {
 	}
 
 	
-	public String[] acceptInput() {
+	public String[] acceptInput(Scanner scanner) {
 		String[] inputArray = new String[2];
-		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter your email: ");
 		String e = scanner.nextLine();
 		inputArray[0] = e;
 		System.out.println("Enter your password: ");
 		String p = scanner.nextLine();
 		inputArray[1] = p;
-		scanner.close();
 		return inputArray;
 		
 	}	
 	
-	public void validateInput(User[] userArray, String[] inputArray) {
+	public void validateInput(User[] userArray, String[] inputArray, Scanner scanner) {
 		String output = "";
-		for (int i = 0; i < 6; i++) {	
+		for (int i = 0; i < 4; i++) {	
 			
 			for(int j = 0; j < userArray.length; j++) {
 				if (userArray[j].getUsername().equalsIgnoreCase(inputArray[0])  && 
-						userArray[j].getPassword().equalsIgnoreCase(inputArray[1])) {
+						userArray[j].getPassword().equals(inputArray[1])) {
 					output = ("Welcome: " + userArray[j].getName());
+					System.out.println(output);
 					break;
 				} else { 
 					continue;
@@ -76,7 +71,9 @@ public class UserService {
 			}
 			if (output == "") {
 				System.out.println("Invalid login, please try again");
-				acceptInput();
+				inputArray = acceptInput(scanner);
+			} else {
+				break;
 			}
 		}
 		
