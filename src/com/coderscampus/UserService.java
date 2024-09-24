@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class UserService {
-	
+
 	public User[] readFile(String filePath) {
-		
+
 		BufferedReader fileReader = null;
 		try {
 			fileReader = new BufferedReader(new FileReader(filePath));
@@ -33,16 +33,15 @@ public class UserService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			fileReader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			return userArray;
+		return userArray;
 	}
 
-	
 	public String[] acceptInput(Scanner scanner) {
 		String[] inputArray = new String[2];
 		System.out.println("Enter your email: ");
@@ -52,20 +51,19 @@ public class UserService {
 		String p = scanner.nextLine();
 		inputArray[1] = p;
 		return inputArray;
-		
-	}	
-	
+
+	}
+
 	public void validateInput(User[] userArray, String[] inputArray, Scanner scanner) {
 		String output = "";
-		for (int i = 0; i < 4; i++) {	
-			
-			for(int j = 0; j < userArray.length; j++) {
-				if (userArray[j].getUsername().equalsIgnoreCase(inputArray[0])  && 
-						userArray[j].getPassword().equals(inputArray[1])) {
-					output = ("Welcome: " + userArray[j].getName());
+		for (int i = 0; i < 4; i++) {
+
+			for (User user : userArray) {
+				if (user.getUsername().equalsIgnoreCase(inputArray[0]) && user.getPassword().equals(inputArray[1])) {
+					output = ("Welcome: " + user.getName());
 					System.out.println(output);
 					break;
-				} else { 
+				} else {
 					continue;
 				}
 			}
@@ -76,10 +74,10 @@ public class UserService {
 				break;
 			}
 		}
-		
+
 		if (output == "") {
-				System.out.println("Too many failed login attempts, you are now locked out");
-			} 
-	
+			System.out.println("Too many failed login attempts, you are now locked out");
+		}
+
 	}
 }
