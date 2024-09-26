@@ -1,9 +1,5 @@
 package com.coderscampus;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class UserService {
@@ -36,8 +32,8 @@ public class UserService {
 				if (attempts == maxAttempts) {
 					System.out.println("Too many failed login attempts, you are now locked out");
 				}
-
 			}
+
 		} catch (Exception e) {
 			System.out.println("An error occurred: " + e.getMessage());
 		}
