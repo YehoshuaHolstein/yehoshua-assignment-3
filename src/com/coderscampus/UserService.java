@@ -8,76 +8,50 @@ import java.util.Scanner;
 
 public class UserService {
 
-	public User[] readFile(String filePath) {
+	private final FileService fileService = new FileService();
 
-		BufferedReader fileReader = null;
-		try {
-			fileReader = new BufferedReader(new FileReader(filePath));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+	public void login(String filePath) {
+		try (Scanner scanner = new Scanner(System.in)) {
+			String username;
+			String password;
+			int attempts = 0;
+			int maxAttempts = 5;
 
-		String line;
-		int index = 0;
-		User[] userArray = new User[4];
-		try {
-			while ((line = fileReader.readLine()) != null) {
-				String[] stringArray = line.split(",");
-				User user = new User();
-				user.setUsername(stringArray[0]);
-				user.setPassword(stringArray[1]);
-				user.setName(stringArray[2]);
-				userArray[index] = user;
-				index++;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			while (attempts < maxAttempts) {
+				System.out.println("Enter your email: ");
+				username = scanner.nextLine();
+				System.out.println("Enter your password: ");
+				password = scanner.nextLine();
 
-		try {
-			fileReader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return userArray;
-	}
+				User validUser = validateUser(filePath, username, password);
 
-	public String[] acceptInput(Scanner scanner) {
-		String[] inputArray = new String[2];
-		System.out.println("Enter your email: ");
-		String e = scanner.nextLine();
-		inputArray[0] = e;
-		System.out.println("Enter your password: ");
-		String p = scanner.nextLine();
-		inputArray[1] = p;
-		return inputArray;
-
-	}
-
-	public void validateInput(User[] userArray, String[] inputArray, Scanner scanner) {
-		String output = "";
-		for (int i = 0; i < 4; i++) {
-
-			for (User user : userArray) {
-				if (user.getUsername().equalsIgnoreCase(inputArray[0]) && user.getPassword().equals(inputArray[1])) {
-					output = ("Welcome: " + user.getName());
-					System.out.println(output);
+				if (validUser != null) {
+					System.out.println("Welcome: " + validUser.getName());
 					break;
 				} else {
-					continue;
+					System.out.println("Invalid login, please try again");
+					attempts++;
 				}
-			}
-			if (output == "") {
-				System.out.println("Invalid login, please try again");
-				inputArray = acceptInput(scanner);
-			} else {
-				break;
-			}
-		}
 
-		if (output == "") {
-			System.out.println("Too many failed login attempts, you are now locked out");
+				if (attempts == maxAttempts) {
+					System.out.println("Too many failed login attempts, you are now locked out");
+				}
+
+			}
+		} catch (Exception e) {
+			System.out.println("An error occurred: " + e.getMessage());
 		}
 
 	}
+
+	private User validateUser(String filePath, String username, String password) {
+		User[] users = fileService.readFile(filePath);
+		for (User user : users) {
+			if (user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password)) {
+				return user;
+			}
+		}
+		return null;
+	}
+
 }
