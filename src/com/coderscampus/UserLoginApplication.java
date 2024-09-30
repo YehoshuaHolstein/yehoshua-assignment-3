@@ -6,6 +6,5 @@ public class UserLoginApplication {
 
 		UserService userService = new UserService();
 		userService.login("data.txt");
-
 	}
 }

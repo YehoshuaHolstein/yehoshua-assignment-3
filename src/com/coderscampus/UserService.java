@@ -30,8 +30,9 @@ public class UserService {
 				}
 
 				if (attempts == maxAttempts) {
-					System.out.println("Too many failed login attempts, you are now locked out");
+					System.out.println("Too many failed attempts, you are now locked out");
 				}
+
 			}
 
 		} catch (Exception e) {
@@ -40,14 +41,14 @@ public class UserService {
 
 	}
 
-	private User validateUser(String filePath, String username, String password) {
+	public User validateUser(String filePath, String username, String password) {
 		User[] users = fileService.readFile(filePath);
 		for (User user : users) {
 			if (user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password)) {
 				return user;
 			}
 		}
+
 		return null;
 	}
-
 }
